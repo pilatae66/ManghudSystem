@@ -1,13 +1,12 @@
 import React, {
     Component
 } from 'react';
-import {
-    View,
-    Text,
-    StyleSheet,
-    Button
-} from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons'
+
+import { View } from "react-native";
+
+import { Container, Content, Card, CardItem, Text, Body, Button, StyleProvider } from "native-base";
+import getTheme from '../../../native-base-theme/components';
+import material from '../../../native-base-theme/variables/material';
 
 export default class Quiz extends Component {
 
@@ -17,28 +16,26 @@ export default class Quiz extends Component {
 
     render() {
         return ( 
-            <View style={styles.container} >
-				<View style = {styles.titleWrapper}>
-					<Text style={styles.titleText}>Quiz</Text>
-				</View>
+            <StyleProvider style={getTheme(material)}> 
+            <Container>
+            <Content style={{ marginHorizontal: 10 }}>
+            <View style={{ marginBottom: 50, marginTop: 10, marginHorizontal: 10 }}>
+                <Text>1.) Question 1</Text>
             </View>
+            <View style={{ flexDirection: 'row'}}>
+                <Button style={{ marginRight: 10, flex: 1 }} rounded light>
+                    <Text>Answer</Text>
+                </Button>
+                <Button style={{ marginRight: 10, flex: 1 }} rounded light>
+                    <Text>Answer</Text>
+                </Button>
+                <Button style={{ flex: 1 }} rounded light>
+                    <Text>Answer</Text>
+                </Button>
+            </View>
+            </Content>
+          </Container>
+          </StyleProvider>
         );
     }
 }
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: 'white',
-		justifyContent: 'center',
-		alignItems: 'center',
-    },
-    titleText: {
-        fontSize: 36,
-        fontWeight: 'bold',
-	},
-	titleWrapper: {
-		flex: 1,
-		justifyContent: 'center',
-	},
-
-})

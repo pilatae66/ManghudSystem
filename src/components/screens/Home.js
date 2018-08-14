@@ -33,6 +33,10 @@ export default class Home extends Component {
 					backgroundColor= "#d35400"
 				/>
                 <Content>
+                    <Image 
+                    source={require('../../images/PeriodicTable.jpg')}
+                    style={{ height:200, width:null, flex:1, resizeMode:'contain', marginTop:150 }}
+                    />
                 </Content>
             </Container>
         );

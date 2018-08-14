@@ -34,20 +34,25 @@ export default class Search extends Component {
         },
     }
 
+    handlePress = (index) => {
+        this.props.navigation.navigate('Show', {element:Table.elements[index]})
+        console.log(Table.elements[index])
+    }
+
     getData(){
         return new Promise(resolve => { 
             setTimeout(() => {
                 let elements = Table.elements.map((element, index) => {
                     return (
-                        <List style={{ backgroundColor:'white' }} >
+                        <List key={index} style={{ backgroundColor:'white' }} >
                             <ListItem>
-                            <Thumbnail square size={80} source={require('../../images/logo.png')} />
+                            <Text style={{ fontSize:26, width:50, textAlign:'center' }}>{element.symbol}</Text>
                             <Body>
-                                <Text>{element.name} ({element.symbol})</Text>
+                                <Text>{element.name}</Text>
                                 <Text note>{contentSnippet(element.summary)}</Text>
                             </Body>
                             <Right>
-                                <Button transparent info>
+                                <Button onPress={this.handlePress.bind(this, index)} transparent info>
                                     <Text style={{ width:65 }}>View</Text>
                                 </Button>
                             </Right>

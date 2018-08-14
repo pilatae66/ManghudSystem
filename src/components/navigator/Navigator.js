@@ -20,11 +20,13 @@ import Login from '../screens/Login'
 
 // Drawer Navigation Screens
 import Home from '../screens/Home'
+import Settings from "../screens/Settings";
 
 //Tab Navigation Screens
 import Lessons from '../screens/Lessons'
 import Search from "../screens/Search"
 import Quiz from "../screens/Quiz"
+import { Show } from '../screens/Show';
 
 //Icons
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -35,6 +37,9 @@ export const Stack = createStackNavigator({
     },
     Login: {
         screen: Login
+    },
+    Show: {
+        screen: Show
     },
     Drawer: {
         screen: createDrawerNavigator({
@@ -84,6 +89,15 @@ export const Stack = createStackNavigator({
                         <Ionicons name='ios-book' size={25} color={tintColor} />
                     ),
                 }
+            },
+            Settings: {
+                screen: Settings,
+                navigationOptions : {
+                    drawerLabel: 'Settings',
+                    drawerIcon: ({ tintColor }) => (
+                        <Ionicons name='ios-cog' size={25} color={tintColor} />
+                    ),
+                }
             }
         },{
             contentOptions:{
@@ -91,7 +105,7 @@ export const Stack = createStackNavigator({
             }
         }),
         navigationOptions:{
-            title: 'Elements'
+            title: 'Mobile Chemistry'
         }
     },
     
