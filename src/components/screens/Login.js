@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, StyleSheet, AppState, TouchableOpacity, StatusBar, Image, ToastAndroid, AsyncStorage } from 'react-native'
+import { Text, View, TextInput, StyleSheet, TouchableOpacity, StatusBar, Image, ToastAndroid, AsyncStorage } from 'react-native'
 import { NavigationActions, StackActions } from 'react-navigation'
+import { connect } from "react-redux";
+import { loginUser } from "../../actions";
+import Sound from "react-native-sound";
 
-export default class Login extends Component{
+class Login extends Component{
 	
 	static navigationOptions = {
 		header: null
@@ -13,92 +16,26 @@ export default class Login extends Component{
 		this.state = {
 			username: "",
 			password: "",
-			check: {
-				username: "admin",
-				password: 'admin'
-			},
-			isMusic: true,
-			music: ''
-		}
-		var Sound = require('react-native-sound');
-		
-		Sound.setCategory('Playback');
-		
-		this.state.music = new Sound('background.mp3', Sound.MAIN_BUNDLE, (error) => {
-			if (error) {
-				console.log('failed to load the sound', error);
-				return;
-			}
-			// loaded successfully
-			console.log('duration in seconds: ' + this.state.music.getDuration() + 'number of channels: ' + this.state.music.getNumberOfChannels());
-			if (this.state.isMusic == true) {
-				this.state.music.play((success) => {
-					if (success) {
-						console.log('successfully finished playing');
-					} else {
-						console.log('playback failed due to audio decoding errors');
-						// reset the player to its uninitialized state (android only)
-						// this is the only option to recover after an error occured and use the player again
-						this.state.music.reset();
-					}
-				});
-				this.state.music.setNumberOfLoops(-1);
-			}
-		});
-		
-	}
-	
-	_retrieveData = async () =>{
-		try {
-			let value = await AsyncStorage.getItem('isMusic');
-			if (value !== null) {
-				// We have data!!
-				if (value == '0') {
-					this.setState({isMusic:false})
-				}
-				else{
-					this.setState({isMusic:true})
-				}
-			}
-			else{
-				console.log('no data!')
-			}
-		} catch (error) {
-			console.log(error)
 		}
 	}
-	
-	componentWillMount(){
-		this._retrieveData()
-	}
-	
-	componentDidMount() {
-		AppState.addEventListener('change', (state) => {
-			if(state === 'background'){
-				this.state.music.stop()
-			}
-			else{
-				this.state.music.play()
-			}
-		})
+
+	componentWillReceiveProps(nextProps){
+		if(nextProps.loggedIn){
+			ToastAndroid.show('You are logged in!', ToastAndroid.SHORT)
+			this.props.navigation.dispatch(StackActions.reset({
+				index: 0,
+				actions: [
+					NavigationActions.navigate({ routeName: 'Drawer'})
+				]
+			}))
+		}
 	}
 	
 	handlePress = () => {
-		console.log(this.props)
-		if(this.state.check.username === this.state.username && this.state.check.password === this.state.password){
-			ToastAndroid.show('You are logged in!', ToastAndroid.SHORT);
-			this.props.navigation.dispatch(StackActions.reset(
-				{
-					index: 0,
-					actions: [
-						NavigationActions.navigate({ routeName: 'Drawer'})
-					]
-				}))
-			}
-			else{
-				ToastAndroid.show('Invalid Credentials!', ToastAndroid.SHORT);
-			}
-		}
+		this.props.loginUser(this.state.username, this.state.password)
+		
+	}
+
 		render() {
 			return (
 				<View style={styles.container}>
@@ -186,3 +123,11 @@ export default class Login extends Component{
 			fontWeight: '700'
 		}
 	});
+
+	mapStateToProps = state => {
+		return {
+			loggedIn: state.user.loggedIn
+		}
+	}
+
+export default connect(mapStateToProps, { loginUser })(Login)

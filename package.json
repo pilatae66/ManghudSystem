@@ -12,7 +12,9 @@
     "react-native": "0.55.4",
     "react-native-sound": "^0.10.9",
     "react-native-vector-icons": "^4.6.0",
-    "react-navigation": "^2.11.2"
+    "react-navigation": "^2.11.2",
+    "react-redux": "^5.0.7",
+    "redux": "^4.0.0"
   },
   "devDependencies": {
     "babel-jest": "23.0.1",

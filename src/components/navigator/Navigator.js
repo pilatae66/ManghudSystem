@@ -11,7 +11,7 @@ import {
 import {
     createDrawerNavigator,
     createStackNavigator,
-    createBottomTabNavigator
+    createBottomTabNavigator,
 } from 'react-navigation'
 
 // StackNavigator screens
@@ -24,7 +24,7 @@ import Settings from "../screens/Settings";
 
 //Tab Navigation Screens
 import Lessons from '../screens/Lessons'
-import Search from "../screens/Search"
+import Elements from "../screens/Elements"
 import Quiz from "../screens/Quiz"
 import { Show } from '../screens/Show';
 
@@ -57,8 +57,8 @@ export const Stack = createStackNavigator({
                     Lessons: {
                         screen: Lessons
                     },
-                    Search : {
-                        screen: Search
+                    Elements : {
+                        screen: Elements
                     },
                     Quiz: {
                         screen: Quiz
@@ -70,7 +70,7 @@ export const Stack = createStackNavigator({
                           let iconName;
                           if (routeName === 'Lessons') {
                             iconName = `ios-book${focused ? '' : '-outline'}`;
-                          }else if (routeName === 'Search') {
+                          }else if (routeName === 'Elements') {
                             iconName = `ios-search${focused ? '' : '-outline'}`;
                           }else if (routeName === 'Quiz') {
                             iconName = `ios-calculator${focused ? '' : '-outline'}`;

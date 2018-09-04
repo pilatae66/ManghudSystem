@@ -7,42 +7,21 @@ import {
 
 import { List, ListItem, Body, Thumbnail, Text, Right, Button, Container, Content, Spinner } from "native-base";
 import Ionicons from 'react-native-vector-icons/Ionicons'
-import Table from "../../data/PeriodicTable.json"
 import { contentSnippet } from "../../helpers/helpers"
+import { connect } from "react-redux"
+import { loadingElements, setElements, setList } from "../../actions";
 
-export default class Search extends Component {
-
-    constructor(props){
-        super(props)
-        this.state = {
-            isLoading: false,
-            data: []
-        }
-    }
-    
-    static navigationOptions = {
-        drawerLabel: 'Home',
-        drawerIcon: ({tintColor}) => {
-            return (
-                <Ionicons 
-                name="ios-home"
-                size={24}
-                style={{ color: tintColor }}
-                >
-                </Ionicons>
-            )
-        },
-    }
+class Elements extends Component {
 
     handlePress = (index) => {
-        this.props.navigation.navigate('Show', {element:Table.elements[index]})
-        console.log(Table.elements[index])
+        this.props.navigation.navigate('Show', {element:this.props.elements[index]})
+        console.log(this.props.elements[index])
     }
 
     getData(){
         return new Promise(resolve => { 
             setTimeout(() => {
-                let elements = Table.elements.map((element, index) => {
+                let elements = this.props.elements.map((element, index) => {
                     return (
                         <List key={index} style={{ backgroundColor:'white' }} >
                             <ListItem>
@@ -68,10 +47,9 @@ export default class Search extends Component {
 
     async asyncCall() {
         console.log('Getting Data')
-        this.setState({isLoading:true})
+        this.props.loadingElements
         let result = await this.getData()
-        this.setState({isLoading:false})
-        this.setState({data: result})
+        this.props.setList(result)
         console.log('Done!')
     }
 
@@ -80,7 +58,8 @@ export default class Search extends Component {
     }
 
     render() {
-        if(this.state.isLoading === true){
+        console.log(this.props)
+        if(this.props.isLoading === true){
             return (
                 <Container>
                 <StatusBar 
@@ -100,10 +79,21 @@ export default class Search extends Component {
                         backgroundColor= "#d35400"
                     />
                     <Content>
-                        {this.state.data    }
+                        {this.props.list}
                     </Content>
                 </Container>
             )
         }
     }
 }
+
+mapStateToProps = state => {
+    return {
+        elements : state.elements.elements,
+        list : state.elements.list,
+        isLoading: state.elements.loading,
+        fetched: state.elements.fetched
+    }
+}
+
+export default connect(mapStateToProps, { loadingElements, setElements, setList })(Elements)

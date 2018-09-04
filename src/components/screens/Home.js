@@ -4,8 +4,9 @@ import React, {
 import { Image, StatusBar } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import { Container, Content, Spinner } from "native-base";
+import { connect } from "react-redux";
 
-export default class Home extends Component {
+class Home extends Component {
     
     constructor(props){
         super(props)
@@ -25,7 +26,7 @@ export default class Home extends Component {
         },
     }
     render() {
-        
+        console.log('Home', this.props)
         return ( 
             <Container>
                 <StatusBar 
@@ -42,3 +43,12 @@ export default class Home extends Component {
         );
     }
 }
+
+mapStateToProps = state => {
+    return {
+        isMusicPlaying: state.isMusicPlaying,
+        music: state.music
+    }
+}
+
+export default connect(mapStateToProps, null)(Home)

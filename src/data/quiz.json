@@ -1,0 +1,38 @@
+{
+    "quiz" : [
+        {
+            "question" : "What is the chemical symbol of Hydrogen",
+            "answers" : [
+                {
+                    "answer" : "H",
+                    "isKey" : true
+                },
+                {
+                    "answer" : "O",
+                    "isKey" : false
+                },
+                {
+                    "answer" : "K",
+                    "isKey" : false
+                }
+            ]
+        },
+        {
+            "question" : "What is the chemical symbol of Helium",
+            "answers" : [
+                {
+                    "answer" : "H",
+                    "isKey" : false
+                },
+                {
+                    "answer" : "He",
+                    "isKey" : true
+                },
+                {
+                    "answer" : "K",
+                    "isKey" : false
+                }
+            ]
+        }
+    ]
+}
