@@ -47,7 +47,7 @@ class Elements extends Component {
 
     async asyncCall() {
         console.log('Getting Data')
-        this.props.loadingElements
+        this.props.loadingElements()
         let result = await this.getData()
         this.props.setList(result)
         console.log('Done!')

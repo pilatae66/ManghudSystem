@@ -7,7 +7,7 @@ import { Dimensions } from "react-native";
 import { Container, Content, Card, CardItem, Text, Body, Button, StyleProvider } from "native-base";
 import getTheme from '../../../native-base-theme/components';
 import material from '../../../native-base-theme/variables/material';
-import { correctAnswer, wrongAnswer } from "../../actions";
+import { correctAnswer, wrongAnswer, nexQuestion, getScore, incrementCount } from "../../actions";
 import {connect} from 'react-redux'
 
 class Quiz extends Component {
@@ -22,17 +22,18 @@ class Quiz extends Component {
     handleAnswers = (question, answer) => {
         if (this.props.quiz[question].answers[answer].isKey == true) {
             alert('Correct!')
-            this.props.correctAnswer
+            this.props.correctAnswer()
             this.setState({count: this.state.count + 1})
-        }else{
+            console.log(this.props)
+        }
+        else{
             alert('Incorrect!')
-            this.props.wrongAnswer
+            this.props.wrongAnswer()
         }
     }
 
     render() {
         let questionnaire = this.props.quiz.map((value, key) => {
-            console.log(value)
             return (
                 <Card key={key} style={{ height: 500, flex: 1, flexDirection:'column', justifyContent:'center', alignItems:'center' }}>
                     <CardItem header>
@@ -52,22 +53,38 @@ class Quiz extends Component {
                 </Card>
             )
         })
+
+        if(questionnaire[this.state.count] == null) {
+            return (
+                <Card style={{ height: 500, flex: 1, flexDirection:'column', justifyContent:'center', alignItems:'center' }}>
+                    <CardItem header>
+                        <Text>Score</Text>
+                    </CardItem>
+                    <CardItem footer>
+                        <Text>{this.props.score}</Text>
+                    </CardItem>
+                </Card>
+            )
+        }else{
+            return ( 
+                <StyleProvider style={getTheme(material)}> 
+                <Container>
+                    <Content>
+                        {questionnaire[this.state.count]}
+                    </Content>
+                </Container>
+                </StyleProvider>
+            )
+        }
         
-        return ( 
-            <StyleProvider style={getTheme(material)}> 
-            <Container>
-                <Content>
-                    {questionnaire[this.state.count]}
-                </Content>
-            </Container>
-            </StyleProvider>
-        );
     }
 }
-mapStatestoProps = state => {
+mapStatetoProps = state => {
     return {
         quiz: state.quiz.quiz,
+        score: state.quiz.score,
+        incorrectAnswerCount: state.quiz.incorrectAnswerCount
     }
 }
 
-export default connect(mapStatestoProps, { correctAnswer, wrongAnswer })(Quiz)
+export default connect(mapStatetoProps, { correctAnswer, wrongAnswer, nexQuestion, getScore, incrementCount })(Quiz)
