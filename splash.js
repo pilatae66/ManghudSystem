@@ -13,6 +13,7 @@ import {
 	StyleSheet,
 	StatusBar
 } from 'react-native';
+import { NavigationActions, StackActions } from 'react-navigation'
 
 export default class Splash extends Component {
 	static navigationOptions = {
@@ -21,7 +22,12 @@ export default class Splash extends Component {
 
 	componentWillMount() {
 		setTimeout(() => {
-			this.props.navigation.navigate("Login")
+			this.props.navigation.dispatch(StackActions.reset({
+				index: 0,
+				actions: [
+					NavigationActions.navigate({ routeName: 'Drawer'})
+				]
+			}))
 		}, 3000)
 
 	}

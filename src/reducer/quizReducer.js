@@ -1,7 +1,4 @@
-import Quiz from '../data/quiz.json'
-
 const initialState = {
-    quiz: Quiz.quiz,
     score: 0,
     count: 0,
     incorrectAnswerCount: 0
@@ -15,6 +12,9 @@ export default (state = initialState, action) => {
     
         case 'INCORRECT_ANSWER':
             return {...state, incorrectAnswerCount: state.incorrectAnswerCount + 1}
+    
+        case 'SET_QUIZ_LIST':
+            return {...state, list: state.quiz, isLoading: !state.isLoading}
             
         default:
             return state;

@@ -2,8 +2,6 @@ import React, {
     Component
 } from 'react';
 
-import { Dimensions } from "react-native";
-
 import { Container, Content, Card, CardItem, Text, Body, Button, StyleProvider } from "native-base";
 import getTheme from '../../../native-base-theme/components';
 import material from '../../../native-base-theme/variables/material';
@@ -11,16 +9,23 @@ import { correctAnswer, wrongAnswer, nexQuestion, getScore, incrementCount } fro
 import {connect} from 'react-redux'
 
 class Quiz extends Component {
-
-    constructor(props){
+    
+    constructor(props) {
         super(props)
         this.state = {
+            quiz : [],
             count: 0
         }
     }
 
+    componentDidMount(){
+        let quiz = this.props.navigation.getParam('quiz', [])
+        console.log(quiz)
+        this.setState({quiz:quiz}) 
+    }
+
     handleAnswers = (question, answer) => {
-        if (this.props.quiz[question].answers[answer].isKey == true) {
+        if (this.state.quiz[question].answers[answer].isKey == true) {
             alert('Correct!')
             this.props.correctAnswer()
             this.setState({count: this.state.count + 1})
@@ -31,9 +36,11 @@ class Quiz extends Component {
             this.props.wrongAnswer()
         }
     }
-
+    
+    //FIXME: quiz array cant be passed on navigation parameters
     render() {
-        let questionnaire = this.props.quiz.map((value, key) => {
+        console.log(this.state.quiz)
+        let questionnaire = this.state.quiz.map((value, key) => {
             return (
                 <Card key={key} style={{ height: 500, flex: 1, flexDirection:'column', justifyContent:'center', alignItems:'center' }}>
                     <CardItem header>

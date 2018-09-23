@@ -10,3 +10,9 @@ export const wrongAnswer = () => {
         type: 'INCORRECT_ANSWER'
     }
 }
+
+export const setQuizList = () => {
+    return {
+        type: 'SET_QUIZ_LIST'
+    }
+}

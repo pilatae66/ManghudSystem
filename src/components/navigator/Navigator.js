@@ -16,16 +16,16 @@ import {
 
 // StackNavigator screens
 import Splash from '../screens/splash'
-import Login from '../screens/Login'
 
 // Drawer Navigation Screens
 import Home from '../screens/Home'
 import Settings from "../screens/Settings";
 
 //Tab Navigation Screens
-import Lessons from '../screens/Lessons'
+import LessonsList from '../screens/LessonsList'
 import Elements from "../screens/Elements"
 import Quiz from "../screens/Quiz"
+import QuizList from "../screens/QuizList"
 import { Show } from '../screens/Show';
 
 //Icons
@@ -35,11 +35,11 @@ export const Stack = createStackNavigator({
     Splash: {
         screen: Splash,
     },
-    Login: {
-        screen: Login
-    },
     Show: {
         screen: Show
+    },
+    Quiz: {
+        screen: Quiz
     },
     Drawer: {
         screen: createDrawerNavigator({
@@ -55,13 +55,13 @@ export const Stack = createStackNavigator({
             Tab: {
                 screen: createBottomTabNavigator({
                     Lessons: {
-                        screen: Lessons
+                        screen: LessonsList
                     },
                     Elements : {
                         screen: Elements
                     },
-                    Quiz: {
-                        screen: Quiz
+                    QuizList: {
+                        screen: QuizList
                     }
                 },{
                     navigationOptions : ({ navigation }) => ({
@@ -72,7 +72,7 @@ export const Stack = createStackNavigator({
                             iconName = `ios-book${focused ? '' : '-outline'}`;
                           }else if (routeName === 'Elements') {
                             iconName = `ios-search${focused ? '' : '-outline'}`;
-                          }else if (routeName === 'Quiz') {
+                          }else if (routeName === 'QuizList') {
                             iconName = `ios-calculator${focused ? '' : '-outline'}`;
                           }
                   
