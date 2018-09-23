@@ -7,6 +7,6 @@ export const correctAnswer = () => {
 
 export const wrongAnswer = () => {
     return {
-        type: 'CORRECT_ANSWER'
+        type: 'INCORRECT_ANSWER'
     }
 }
