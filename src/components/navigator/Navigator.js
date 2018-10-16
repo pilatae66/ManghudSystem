@@ -26,7 +26,7 @@ import LessonsList from '../screens/LessonsList'
 import Elements from "../screens/Elements"
 import Quiz from "../screens/Quiz"
 import QuizList from "../screens/QuizList"
-import { Show } from '../screens/Show';
+import Show from '../screens/Show';
 
 //Icons
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -79,8 +79,11 @@ export const Stack = createStackNavigator({
                           // You can return any component that you like here! We usually use an
                           // icon component from react-native-vector-icons
                           return <Ionicons name={iconName} size={25} color={tintColor} />;
-                        },
-                      })
+                        }
+                    }),
+                    tabBarOptions:{
+                        activeTintColor:'#d35400'
+                    }
                 }),
                 navigationOptions : {
                     title: 'Lessons',
@@ -89,29 +92,18 @@ export const Stack = createStackNavigator({
                         <Ionicons name='ios-book' size={25} color={tintColor} />
                     ),
                 }
-            },
-            Settings: {
-                screen: Settings,
-                navigationOptions : {
-                    drawerLabel: 'Settings',
-                    drawerIcon: ({ tintColor }) => (
-                        <Ionicons name='ios-cog' size={25} color={tintColor} />
-                    ),
-                }
             }
         },{
             contentOptions:{
-                activeTintColor: '#d35400'
-            }
-        }),
-        navigationOptions:{
-            title: 'Mobile Chemistry'
-        }
+                activeTintColor:'#d35400'
+            },
+        })
     },
     
 }, {
     initialRouteName: 'Splash',
-    navigationOptions: {
+    navigationOptions: ({navigation}) => ({
+        header: null,
         headerStyle: {
             backgroundColor: '#d35400',
         },
@@ -120,5 +112,6 @@ export const Stack = createStackNavigator({
             fontWeight: 'bold',
             color: 'white'
         },
-    },
+        headerLeft: <Ionicons name='ios-menu' onPress={() => navigation.toggleDrawer()} size={25} style={{ color:'white', marginLeft:10}}/>
+    }),
 })

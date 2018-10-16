@@ -2,10 +2,12 @@ import React, {
     Component
 } from 'react';
 
-import { Container, Content, Card, CardItem, Text, Body, Button, StyleProvider } from "native-base";
+import { StatusBar } from 'react-native';
+
+import { Container, Content, Card, CardItem, Text, Body, Button, Header, Left, Right, Title, Icon } from "native-base";
 import getTheme from '../../../native-base-theme/components';
 import material from '../../../native-base-theme/variables/material';
-import { correctAnswer, wrongAnswer, nexQuestion, getScore, incrementCount } from "../../actions";
+import { correctAnswer, wrongAnswer, nexQuestion, getScore, incrementCount, resetScore } from "../../actions";
 import {connect} from 'react-redux'
 
 class Quiz extends Component {
@@ -14,14 +16,17 @@ class Quiz extends Component {
         super(props)
         this.state = {
             quiz : [],
+            quizTitle:"",
             count: 0
         }
     }
 
     componentDidMount(){
         let quiz = this.props.navigation.getParam('quiz', [])
+        let quizTitle = this.props.navigation.getParam('quizTitle', "")
         console.log(quiz)
         this.setState({quiz:quiz}) 
+        this.setState({quizTitle:quizTitle}) 
     }
 
     handleAnswers = (question, answer) => {
@@ -34,12 +39,17 @@ class Quiz extends Component {
         else{
             alert('Incorrect!')
             this.props.wrongAnswer()
+            this.setState({count: this.state.count + 1})
         }
     }
+
+    componentWillUnmount(){
+        this.props.resetScore()
+    }
     
-    //FIXME: quiz array cant be passed on navigation parameters
+    
     render() {
-        console.log(this.state.quiz)
+        console.log(this.state)
         let questionnaire = this.state.quiz.map((value, key) => {
             return (
                 <Card key={key} style={{ height: 500, flex: 1, flexDirection:'column', justifyContent:'center', alignItems:'center' }}>
@@ -63,24 +73,56 @@ class Quiz extends Component {
 
         if(questionnaire[this.state.count] == null) {
             return (
-                <Card style={{ height: 500, flex: 1, flexDirection:'column', justifyContent:'center', alignItems:'center' }}>
-                    <CardItem header>
-                        <Text>Score</Text>
-                    </CardItem>
-                    <CardItem footer>
-                        <Text>{this.props.score}</Text>
-                    </CardItem>
-                </Card>
+                <Container>
+                     <Header style={{ backgroundColor:"#d35400" }}>
+                        <Left style={{ flex:1 }}>
+                            <Button transparent iconLeft onPress={()=>this.props.navigation.goBack()}>
+                            <Icon name='arrow-back' />
+                            </Button>
+                        </Left>
+                        <Body style={{ flex:1, alignItems:'center' }}>
+                            <Title style={{ textAlign:'center', width:200 }}>{this.state.quizTitle}</Title>
+                        </Body>
+                        <Right />
+                    </Header>
+                    <StatusBar 
+                        barStyle="light-content"
+                        backgroundColor= "#d35400"
+                    />
+                    <Content>
+                        <Card style={{ height: 500, flex: 1, flexDirection:'column', justifyContent:'center', alignItems:'center' }}>
+                            <CardItem header>
+                                <Text>Score</Text>
+                            </CardItem>
+                            <CardItem footer>
+                                <Text>{this.props.score}</Text>
+                            </CardItem>
+                        </Card>
+                    </Content>
+                </Container>
             )
         }else{
             return ( 
-                <StyleProvider style={getTheme(material)}> 
                 <Container>
+                     <Header style={{ backgroundColor:"#d35400" }}>
+                        <Left style={{ flex:1 }}>
+                            <Button transparent iconLeft onPress={()=>this.props.navigation.goBack()}>
+                            <Icon name='arrow-back' />
+                            </Button>
+                        </Left>
+                        <Body style={{ flex:1, alignItems:'center' }}>
+                            <Title style={{ textAlign:'center', width:200 }}>{this.state.quizTitle}</Title>
+                        </Body>
+                        <Right/>
+                    </Header>
+                    <StatusBar 
+                        barStyle="light-content"
+                        backgroundColor= "#d35400"
+                    />
                     <Content>
                         {questionnaire[this.state.count]}
                     </Content>
                 </Container>
-                </StyleProvider>
             )
         }
         
@@ -94,4 +136,4 @@ mapStatetoProps = state => {
     }
 }
 
-export default connect(mapStatetoProps, { correctAnswer, wrongAnswer, nexQuestion, getScore, incrementCount })(Quiz)
+export default connect(mapStatetoProps, { correctAnswer, wrongAnswer, nexQuestion, getScore, incrementCount, resetScore })(Quiz)

@@ -4,9 +4,16 @@ export const loadingElements = () => {
     }
 }
 
-export const setList = (list) => {
+export const showElement = (element) => {
     return {
-        type: 'SET_LIST',
-        payload: list
+        type: 'SHOW_ELEMENT',
+        payload: element
+    }
+}
+
+export const filterElement = (search) => {
+    return {
+        type: 'FILTER_ELEMENT',
+        payload: search
     }
 }

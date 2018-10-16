@@ -16,6 +16,9 @@ export default (state = initialState, action) => {
         case 'SET_QUIZ_LIST':
             return {...state, list: state.quiz, isLoading: !state.isLoading}
             
+        case 'RESET_SCORE':
+            return {...state, score: 0}
+            
         default:
             return state;
     }

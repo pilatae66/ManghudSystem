@@ -1,9 +1,17 @@
 import Table from "../data/PeriodicTable.json"
+import _ from 'lodash'
 
 const initialState = {
     elements: Table.elements,
-    list: [],
-    loading: true
+    element: {},
+    filteredData: Table.elements
+}
+
+const contains = (element, query) => {
+    if(element.name.includes(query)){
+        return true
+    }
+    return false
 }
 
 export default (state = initialState, action) => {
@@ -11,9 +19,19 @@ export default (state = initialState, action) => {
         case 'FETCHING_ELEMENTS':
             return {...state, loading: true}
 
-        case 'SET_LIST':
-            return { ...state, list: action.payload, loading: false }
-    
+        case 'SHOW_ELEMENT':
+            return { ...state, element: action.payload }
+        
+        case 'FILTER_ELEMENT':
+            if(action.payload.length === 0){
+                return { ...state, filteredData: state.elements }
+            }
+            else{
+                const data = _.filter(state.elements, element => {
+                    return contains(element, action.payload)
+                })
+                return {...state, filteredData: data}
+            }
         default:
             return state
     }

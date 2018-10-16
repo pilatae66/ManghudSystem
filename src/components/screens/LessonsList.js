@@ -2,10 +2,10 @@ import React, {
     Component
 } from 'react';
 import {
-    View
+    View, StatusBar
 } from 'react-native';
 import firebase from 'react-native-firebase'
-import { List, ListItem, Body, Thumbnail, Text, Right, Button, Container, Content, Spinner, StatusBar } from "native-base";
+import { Container, Header, Left, Content, List, ListItem, Icon, Title, Body, Thumbnail, Text, Right, Button, Spinner } from "native-base";
 
 export default class Lessons extends Component {
 
@@ -30,27 +30,63 @@ export default class Lessons extends Component {
     render() {
         if(this.state.loading == true){
             return (
-                <View>
-                    <Spinner/>
-                </View>
+                <Container>
+                    <Header style={{ backgroundColor:"#d35400" }}>
+                        <Left style={{ flex:1 }}>
+                            <Button transparent iconLeft onPress={()=>this.props.navigation.toggleDrawer()}>
+                            <Icon name='menu' />
+                            </Button>
+                        </Left>
+                        <Body style={{ flex:1, alignItems:'center' }}>
+                            <Title style={{ textAlign:'center' }}>Lessons</Title>
+                        </Body>
+                        <Right />
+                    </Header>
+                    <StatusBar 
+                        barStyle="light-content"
+                        backgroundColor= "#d35400"
+                    />
+                    <Content>
+                        <Spinner/>
+                    </Content>
+                </Container>
             )
         }
         else{
             const lessons = this.state.lessons
             return (
-               <View>
-                   <List style={{ backgroundColor: 'white' }}
-                   dataArray={lessons}
-                   renderRow={(lesson, index) => {
-                       return (
-                        <ListItem>
-                            <Text>{lesson.lessonTitle}</Text>
-                                <Text>{lesson.lesson}</Text>
-                        </ListItem>
-                       )
-                   }}
-                   ></List>
-               </View>
+               <Container>
+                   <Header style={{ backgroundColor:"#d35400" }}>
+                        <Left style={{ flex:1 }}>
+                            <Button transparent iconLeft onPress={()=>this.props.navigation.toggleDrawer()}>
+                            <Icon name='menu' />
+                            </Button>
+                        </Left>
+                        <Body style={{ flex:1, alignItems:'center' }}>
+                            <Title style={{ textAlign:'center' }}>Lessons</Title>
+                        </Body>
+                        <Right />
+                    </Header>
+                    <StatusBar 
+                        barStyle="light-content"
+                        backgroundColor= "#d35400"
+                    />
+                   <Content>
+                    <List style={{ backgroundColor: 'white' }}
+                    dataArray={lessons}
+                    renderRow={(lesson, index) => {
+                        return (
+                            <ListItem>
+                                <Body>
+                                    <Text>{lesson.lesson}</Text>
+                                    <Text note>{lesson.lessonTitle}</Text>
+                                </Body>
+                            </ListItem>
+                        )
+                    }}
+                    ></List>
+                   </Content>
+               </Container>
             )
         }
     }

@@ -16,3 +16,9 @@ export const setQuizList = () => {
         type: 'SET_QUIZ_LIST'
     }
 }
+
+export const resetScore = () => {
+    return {
+        type: 'RESET_SCORE'
+    }
+}
